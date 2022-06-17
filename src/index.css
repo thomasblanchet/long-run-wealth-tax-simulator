@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=Oswald:wght@500&family=Lato:ital,wght@0,400;0,700;1,400&display=swap");
+body {
+  position: relative;
+  font-family: "Lato", sans-serif;
+  background-color: #5c7a81ff;
+  color: #ffffff;
+}
+
+h1, h2, h3, h3, h4, h5 {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+}
+h1 .title-highlight, h2 .title-highlight, h3 .title-highlight, h3 .title-highlight, h4 .title-highlight, h5 .title-highlight {
+  color: #0a9396ff;
+}
+h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .title-highlight-alt, h4 .title-highlight-alt, h5 .title-highlight-alt {
+  color: #e76f51ff;
+}
+
+.text-shadow {
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  background-image: linear-gradient(#002b36ff, #5c7a81ff);
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.footer {
+  color: #FFF;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.2rem;
+  background-color: #002b36ff;
+  padding: 50px 20px 50px 20px;
+  margin-top: 200px;
+}
+.footer p {
+  line-height: 2.4rem;
+  margin: 0;
+}
+.footer a {
+  color: #FFF;
+  line-height: 1.6rem;
+}
+
+.annotation {
+  font-family: "Caveat", cursive;
+  font-size: 24px;
+  transform: rotate(-7deg);
+  margin-top: -10px;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+.annotation img {
+  transform: rotate(20deg);
+}
+
+.btn {
+  border-radius: 0;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #005f73ff;
+}
+.btn-primary:hover {
+  background-color: #0089a6;
+}
+.btn-primary.active, .btn-primary:active {
+  background-color: #005f73ff;
+}
+.btn-primary.focus, .btn-primary:focus {
+  background-color: #005f73ff;
+}
+
+.btn-danger {
+  background-color: #e76f51ff;
+}
+.btn-danger:hover {
+  background-color: #ed947e;
+}
+.btn-danger.active, .btn-danger:active {
+  background-color: #e76f51ff;
+}
+.btn-danger.focus, .btn-danger:focus {
+  background-color: #e76f51ff;
+}
+
+.card {
+  color: #000;
+  border-radius: 0;
+  border: none;
+  background-color: #FFF;
+}
+.card .color-alt {
+  background-color: #2a9d8fff;
+  color: #FFF;
+}
+.card .color-alt table {
+  color: #FFF;
+  margin: 0;
+  padding: 0;
+}
+.card .color-alt table tr {
+  border-bottom: 2px solid #94d2bdff;
+}
+.card .color-alt table tr th:first-child {
+  padding-top: 0;
+}
+.card .color-alt table tr td, .card .color-alt table tr th {
+  padding-left: 0;
+}
+.card .color-alt table tr td:last-child, .card .color-alt table tr th:last-child {
+  padding-right: 0;
+}
+.card .color-alt table tfoot {
+  font-weight: bold;
+}
+.card .color-alt table tfoot tr {
+  border-color: #2a9d8fff;
+}
+.card .color-alt table input {
+  border-radius: 0;
+  border: none;
+}
+
+.tax-revenue {
+  text-align: center;
+}
+.tax-revenue thead tr {
+  background-color: #228175;
+}
+.tax-revenue tfoot tr {
+  background-color: #228175;
+}
+
+hr {
+  border-top: 2px solid #94d2bdff;
+  opacity: 1;
+}
+
+.behavioral-parameters p.muted {
+  color: #264653ff;
+}
+
+.parameter {
+  border: none;
+  background-color: #005f73ff;
+  padding: 3px 6px 3px 6px;
+  margin-left: 10px;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #e76f51ff;
+}
+
+.slider::-moz-range-thumb {
+  background: #e76f51ff;
+}
+
+.paper-animation {
+  display: block;
+  color: #000;
+}
+.paper-animation:hover {
+  color: #000;
+}
+.paper-animation .paper-stack {
+  background: #FFF;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3), inset 0 0 100px rgba(0, 0, 0, 0.25);
+  width: 300px;
+  height: 424.2640687119px;
+  margin: auto;
+  top: 0;
+  padding: 24px;
+  position: relative;
+}
+.paper-animation .paper-stack p {
+  font-size: 7px;
+  font-family: "Georgia", serif;
+}
+.paper-animation .paper-stack p.title {
+  font-size: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+.paper-animation .paper-stack p.author {
+  text-align: center;
+}
+.paper-animation .paper-stack p.abstract-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+.paper-animation .paper-stack p.abstract {
+  text-align: justify;
+}
+.paper-animation .paper-stack .paper-sheet {
+  background: #FFF;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3), inset 0 0 100px rgba(0, 0, 0, 0.25);
+  height: 100%;
+  width: 100%;
+  padding: 48px;
+  position: absolute;
+  transition: 0.5s;
+}
+.paper-animation .paper-stack .paper-sheet:nth-child(1) {
+  left: -10px;
+  top: 4px;
+  transform: rotate(-3deg);
+}
+.paper-animation .paper-stack .paper-sheet:nth-child(2) {
+  right: -6px;
+  top: 0px;
+  transform: rotate(4.8deg);
+}
+.paper-animation .paper-stack:hover > .paper-sheet:nth-child(1) {
+  transform: rotate(0deg);
+  left: -6px;
+  top: 6px;
+}
+.paper-animation .paper-stack:hover > .paper-sheet:nth-child(2) {
+  transform: rotate(0deg);
+  right: 12px;
+  top: 12px;
+}

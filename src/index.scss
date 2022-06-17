@@ -1,0 +1,265 @@
+@use "sass:math";
+@use "sass:color";
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=Oswald:wght@500&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+
+$rich-black-fogra-29: #001219ff;
+$prussian-blue: #003049ff;
+$blue-sapphire: #005f73ff;
+$viridian-green: #0a9396ff;
+$middle-blue-green: #94d2bdff;
+$medium-champagne: #e9d8a6ff;
+$gamboge: #ee9b00ff;
+$alloy-orange: #ca6702ff;
+$mahogany: #bb3e03ff;
+$rufous: #ae2012ff;
+$ruby-red: #9b2226ff;
+$charcoal: #264653ff;
+$persian-green: #2a9d8fff;
+$orange-yellow-crayola: #e9c46aff;
+$sandy-brown: #f4a261ff;
+$burnt-sienna: #e76f51ff;
+
+$dark-teal: #002b36ff;
+$medium-teal: #5c7a81ff;
+
+body {
+    position: relative;
+    font-family: "Lato", sans-serif;
+    background-color: $medium-teal;
+    color: #ffffff;
+}
+
+h1, h2, h3, h3, h4, h5 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    .title-highlight {
+        color: $viridian-green;
+    }
+    .title-highlight-alt {
+        color: $burnt-sienna;
+    }
+}
+
+.text-shadow {
+    text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+    background-image: linear-gradient($dark-teal, $medium-teal);
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.footer {
+  color: #FFF;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  background-color: $dark-teal;
+  padding: 50px 20px 50px 20px;
+  margin-top: 200px;
+  p {
+    line-height: 2.4rem;
+    margin: 0;
+  }
+  a {
+    color: #FFF;
+    line-height: 1.6rem;
+  }
+}
+
+.annotation {
+    font-family: "Caveat", cursive;
+    font-size: 24px;
+    transform: rotate(-7deg);
+    margin-top: -10px;
+    padding-left: 80px;
+    padding-right: 80px;
+    img {
+        transform: rotate(20deg);
+    }
+}
+
+.btn {
+    border-radius: 0;
+    border: none;
+}
+
+.btn-primary {
+    background-color: $blue-sapphire;
+    &:hover {
+        background-color: lighten($blue-sapphire, 10);
+    }
+    &.active, &:active {
+        background-color: $blue-sapphire;
+    }
+    &.focus, &:focus {
+        background-color: $blue-sapphire;
+    }
+}
+.btn-danger {
+    background-color: $burnt-sienna;
+    &:hover {
+        background-color: lighten($burnt-sienna, 10);
+    }
+    &.active, &:active {
+        background-color: $burnt-sienna;
+    }
+    &.focus, &:focus {
+        background-color: $burnt-sienna;
+    }
+}
+
+// -------------------------------------------------------------------------- //
+// Cards
+// -------------------------------------------------------------------------- //
+
+.card {
+    color: #000;
+    border-radius: 0;
+    border: none;
+    background-color: #FFF;
+    & .color-alt {
+        background-color: $persian-green;
+        color: #FFF;
+        table {
+            color: #FFF;
+            margin: 0;
+            padding: 0;
+            tr {
+                border-bottom: 2px solid $middle-blue-green;
+                th:first-child {
+                    padding-top: 0;
+                }
+                td, th {
+                    padding-left: 0;
+                    &:last-child {
+                        padding-right: 0;
+                    }
+                }
+            }
+            tfoot {
+                font-weight: bold;
+                tr {
+                    border-color: $persian-green;
+                }
+            }
+            input {
+                border-radius: 0;
+                border: none;
+            }
+        }
+    }
+}
+
+.tax-revenue {
+    text-align: center;
+    thead {
+        tr {
+            background-color: darken($persian-green, 7);
+        }
+    }
+    tfoot {
+        tr {
+            background-color: darken($persian-green, 7);
+        }
+    }
+}
+
+hr {
+    border-top: 2px solid $middle-blue-green;
+    opacity: 1;
+}
+
+.behavioral-parameters {
+    p.muted {
+        color: $charcoal;
+    }
+}
+
+.parameter {
+    border: none;
+    background-color: $blue-sapphire;
+    padding: 3px 6px 3px 6px;
+    margin-left: 10px;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: $burnt-sienna;
+}
+
+.slider::-moz-range-thumb {
+    background: $burnt-sienna;
+}
+
+// -------------------------------------------------------------------------- //
+// Paper animation
+// -------------------------------------------------------------------------- //
+
+.paper-animation {
+    display: block;
+    color: #000;
+    &:hover {
+        color: #000;
+    }
+    .paper-stack {
+        background: #FFF;
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.3), inset 0 0 100px rgba(0, 0, 0, 0.25);
+        width: 300px;
+        height: 300px*math.sqrt(2);
+        margin: auto;
+        top: 0;
+        padding: 24px;
+        position: relative;
+        p {
+            font-size: 7px;
+            font-family: "Georgia", serif;
+            &.title {
+                font-size: 10px;
+                text-align: center;
+                font-weight: bold;
+            }
+            &.author {
+                text-align: center;
+            }
+            &.abstract-title {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+            }
+            &.abstract {
+                text-align: justify;
+            }
+        }
+        .paper-sheet {
+            background: #FFF;
+            box-shadow: 0 0 16px rgba(0, 0, 0, 0.3), inset 0 0 100px rgba(0, 0, 0, 0.25);
+            height: 100%;
+            width: 100%;
+            padding: 48px;
+            position: absolute;
+            transition: 0.5s;
+        }
+        .paper-sheet:nth-child(1) {
+            left: -10px;
+            top: 4px;
+            transform: rotate(-3deg);
+        }
+        .paper-sheet:nth-child(2) {
+            right: -6px;
+            top: 0px;
+            transform: rotate(4.8deg);
+        }
+        &:hover > .paper-sheet:nth-child(1) {
+            transform: rotate(0deg);
+            left: -6px;
+            top: 6px;
+        }
+        &:hover > .paper-sheet:nth-child(2) {
+            transform: rotate(0deg);
+            right: 12px;
+            top: 12px;
+        }
+    }
+}
