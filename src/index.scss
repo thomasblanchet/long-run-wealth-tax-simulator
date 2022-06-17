@@ -28,6 +28,7 @@ body {
     font-family: "Lato", sans-serif;
     background-color: $medium-teal;
     color: #ffffff;
+    margin: 0;
 }
 
 h1, h2, h3, h3, h4, h5 {
@@ -58,7 +59,7 @@ h1, h2, h3, h3, h4, h5 {
   font-size: 1.2rem;
   background-color: $dark-teal;
   padding: 50px 20px 50px 20px;
-  margin-top: 200px;
+  margin: 200px 0 0 0;
   p {
     line-height: 2.4rem;
     margin: 0;
@@ -73,9 +74,10 @@ h1, h2, h3, h3, h4, h5 {
     font-family: "Caveat", cursive;
     font-size: 24px;
     transform: rotate(-7deg);
-    margin-top: -10px;
-    padding-left: 80px;
-    padding-right: 80px;
+    margin-top: 0px;
+    margin-left: 80px;
+    margin-right: 80px;
+    max-width: 400px;
     img {
         transform: rotate(20deg);
     }
@@ -129,15 +131,6 @@ h1, h2, h3, h3, h4, h5 {
             padding: 0;
             tr {
                 border-bottom: 2px solid $middle-blue-green;
-                th:first-child {
-                    padding-top: 0;
-                }
-                td, th {
-                    padding-left: 0;
-                    &:last-child {
-                        padding-right: 0;
-                    }
-                }
             }
             tfoot {
                 font-weight: bold;
@@ -181,8 +174,6 @@ hr {
 .parameter {
     border: none;
     background-color: $blue-sapphire;
-    padding: 3px 6px 3px 6px;
-    margin-left: 10px;
 }
 
 .form-range::-webkit-slider-thumb {
@@ -261,5 +252,19 @@ hr {
             right: 12px;
             top: 12px;
         }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .paper-animation {
+        display: none;
+    }
+    .annotation {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+    .header {
+        padding-top: 20px;
+        padding-bottom: 40px;
     }
 }

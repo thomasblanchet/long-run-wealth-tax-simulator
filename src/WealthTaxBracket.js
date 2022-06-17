@@ -4,10 +4,10 @@ export class WealthTaxBracket extends React.Component {
     render() {
         return(
             <tr>
-                <td>
+                <td className="ps-0">
                     <input
                         type="number"
-                        class="form-control"
+                        className="form-control"
                         value={this.props.threshold}
                         onChange={this.props.handleChangeThreshold}
                         step="0.1"
@@ -15,10 +15,10 @@ export class WealthTaxBracket extends React.Component {
                         placeholder="E.g., 50 to mean $50m"
                     />
                 </td>
-                <td>
+                <td className="ps-0">
                     <input
                         type="number"
-                        class="form-control"
+                        className="form-control"
                         value={this.props.marginalRate}
                         onChange={this.props.handleChangeMarginalRate}
                         step="0.1"
@@ -27,14 +27,14 @@ export class WealthTaxBracket extends React.Component {
                         placeholder="E.g., 2 to mean 2%"
                     />
                 </td>
-                <td>
+                <td className="px-0">
                     <button
                         type="button"
-                        class="btn btn-danger btn-sm"
+                        className="btn btn-danger btn-sm"
                         disabled={this.props.removeDisabled}
                         onClick={this.props.onClickRemove}
                     >
-                        <i class="fa-solid fa-trash-can"></i>
+                        <i className="fa-solid fa-trash-can"></i>
                     </button>
                 </td>
             </tr>

@@ -4,18 +4,19 @@ import { WealthTaxBracket } from './WealthTaxBracket';
 export class WealthTaxSchedule extends React.Component {
     render() {
         return(
-            <table class="table align-middle tax-brackets">
+            <table className="table align-middle tax-brackets">
                 <thead>
                     <tr>
-                        <th scope="col" style={{width: '50%', whiteSpace: 'nowrap'}}>Threshold (millions of $)</th>
-                        <th scope="col" style={{width: '50%', whiteSpace: 'nowrap'}}>Marginal tax rate (%)</th>
-                        <th scope="col"></th>
+                        <th scope="col" className="ps-0" style={{width: '50%'}}>Threshold (millions of $)</th>
+                        <th scope="col" className="ps-0" style={{width: '50%'}}>Marginal tax rate (%)</th>
+                        <th scope="col" className="px-0"></th>
                     </tr>
                 </thead>
                 <tbody>
                 {
                     this.props.thresholds.map((threshold, i) =>
                         <WealthTaxBracket
+                            key={i}
                             threshold={this.props.thresholds[i]}
                             marginalRate={this.props.marginalRates[i]}
                             popImpacted={this.props.popImpacted[i]}

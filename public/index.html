@@ -2,13 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8VRR6JEY8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-L8VRR6JEY8');
+    </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -43,6 +52,9 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div style="background-color: red; color: white; line-height: 100px; text-align: center; font-weight: bold; font-size: 24px;">
+        WORK IN PROGRESS <br/> DO NOT PUBLICIZE
+    </div>
     <div class="header">
         <div class="container">
             <div class="row justify-content-evenly">
@@ -64,7 +76,7 @@
                 <div class="col-lg-6">
                     <div class="mt-2">
                         <h1 class="text-shadow"><span class="title-highlight">Long-run</span> Wealth Tax Simulator</h1>
-                        <p class="text-shadow mt-4">How much money can you raise with a wealth tax? And how would it affect inequality? This simulator lets you answer these questions. But unlike other simulators, it also takes into account how taxation dynamically affect wealth accumulation. So it can estimate the effects a wealth tax in the long run.</p>
+                        <p class="text-shadow mt-4">How much money can you raise with a wealth tax? And how would it affect inequality? This simulator lets you answer these questions. Unlike other simulators, it also takes into account how taxation dynamically affect wealth accumulation, so it can estimate its effects in the long run.</p>
                         <p class="text-shadow mt-4">The anaysis is based on the paper <em>“Uncovering the Dynamics of the Wealth Distribution”</em>, which develops simple formulas for understaing the long-run impact of wealth taxation.</p>
                         <a class="btn btn-danger shadow-sm" href="#" role="button"><i class="fa-solid fa-book-open"></i>&nbsp; Read the paper</a>
                         <p class="text-shadow annotation">
@@ -96,11 +108,6 @@
                 <a href='https://sass-lang.com'>Sass</a>
                 <i class='fas fa-plus-circle'></i>
                 <a href='https://codekitapp.com'>CodeKit</a>
-            </p>
-            <p>
-                I respect your privacy. No
-                <i class='fas fa-cookie-bite'></i>
-                or tracking of any kind.
             </p>
         </div>
     </div>

@@ -1,5 +1,6 @@
 {
-  "name": "dynamic-wealth-tax-simulator",
+  "name": "long-run-wealth-tax-simulator",
+  "homepage" : "https://thomasblanchet.github.io/wealth-tax/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

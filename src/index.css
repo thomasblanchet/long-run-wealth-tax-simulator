@@ -4,6 +4,7 @@ body {
   font-family: "Lato", sans-serif;
   background-color: #5c7a81ff;
   color: #ffffff;
+  margin: 0;
 }
 
 h1, h2, h3, h3, h4, h5 {
@@ -34,7 +35,7 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   font-size: 1.2rem;
   background-color: #002b36ff;
   padding: 50px 20px 50px 20px;
-  margin-top: 200px;
+  margin: 200px 0 0 0;
 }
 .footer p {
   line-height: 2.4rem;
@@ -49,9 +50,10 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   font-family: "Caveat", cursive;
   font-size: 24px;
   transform: rotate(-7deg);
-  margin-top: -10px;
-  padding-left: 80px;
-  padding-right: 80px;
+  margin-top: 0px;
+  margin-left: 80px;
+  margin-right: 80px;
+  max-width: 400px;
 }
 .annotation img {
   transform: rotate(20deg);
@@ -106,15 +108,6 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
 .card .color-alt table tr {
   border-bottom: 2px solid #94d2bdff;
 }
-.card .color-alt table tr th:first-child {
-  padding-top: 0;
-}
-.card .color-alt table tr td, .card .color-alt table tr th {
-  padding-left: 0;
-}
-.card .color-alt table tr td:last-child, .card .color-alt table tr th:last-child {
-  padding-right: 0;
-}
 .card .color-alt table tfoot {
   font-weight: bold;
 }
@@ -148,8 +141,6 @@ hr {
 .parameter {
   border: none;
   background-color: #005f73ff;
-  padding: 3px 6px 3px 6px;
-  margin-left: 10px;
 }
 
 .form-range::-webkit-slider-thumb {
@@ -225,4 +216,20 @@ hr {
   transform: rotate(0deg);
   right: 12px;
   top: 12px;
+}
+
+@media (max-width: 991.98px) {
+  .paper-animation {
+    display: none;
+  }
+
+  .annotation {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .header {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
 }

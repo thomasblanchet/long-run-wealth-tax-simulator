@@ -316,7 +316,7 @@ export class WealthTaxSimulator extends React.Component {
                     labels: {
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 12,
                         }
                     }
                 },
@@ -354,7 +354,7 @@ export class WealthTaxSimulator extends React.Component {
                     ticks: {
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 10,
                         }
                     },
                 },
@@ -365,7 +365,7 @@ export class WealthTaxSimulator extends React.Component {
                         text: "% of total wealth",
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 12,
                         }
                     },
                     grid: {
@@ -378,7 +378,7 @@ export class WealthTaxSimulator extends React.Component {
                     ticks: {
                         color: "white",
                         font: {
-                            size: 14,
+                            size: 10,
                         }
                     },
                 },
@@ -496,6 +496,19 @@ export class WealthTaxSimulator extends React.Component {
                 legend: {
                     display: false,
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let line1 = "Average marginal tax rate: "
+                                + context.parsed.x.toPrecision(2)
+                                + "%";
+                            let line2 = "Long-run tax revenue: "
+                                + context.parsed.y.toPrecision(2)
+                                + "% of national income";
+                            return [line1, line2];
+                        }
+                    }
+                },
             },
             elements: {
                 line: {
@@ -511,7 +524,7 @@ export class WealthTaxSimulator extends React.Component {
                         text: "average marginal tax rate (%)",
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 12,
                         }
                     },
                     grid: {
@@ -524,7 +537,7 @@ export class WealthTaxSimulator extends React.Component {
                     ticks: {
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 10,
                         }
                     },
                 },
@@ -535,7 +548,7 @@ export class WealthTaxSimulator extends React.Component {
                         text: "tax revenue (% of national income)",
                         color: "white",
                         font: {
-                            size: 16,
+                            size: 12,
                         }
                     },
                     grid: {
@@ -548,7 +561,7 @@ export class WealthTaxSimulator extends React.Component {
                     ticks: {
                         color: "white",
                         font: {
-                            size: 14,
+                            size: 10,
                         }
                     },
                 },
@@ -568,8 +581,6 @@ export class WealthTaxSimulator extends React.Component {
 
         let taxPaid = this.estimateTaxPaid(thresholds, marginalRates, declaredWealth);
         let longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption);
-
-        console.log(taxPaid);
 
         this.estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights);
         this.estimateLongRunInequality(taxPaid, longRunWeights);
@@ -659,23 +670,25 @@ export class WealthTaxSimulator extends React.Component {
     render() {
         this.runSimulation()
         return(
-            <div class="container">
-                <div class="row mb-5">
-                    <h2 class="text-shadow">Tax <span class="title-highlight-alt">Schedule</span></h2>
-                    <div class="row justify-content-around">
-                        <div class="col-lg-6">
-                            <div class="card mt-3 pt-2 mb-3 shadow">
-                                <div class="card-body">
+            <div className="container">
+                <div className="row mb-5 justify-content-center">
+                    <div className="row">
+                        <h2 className="text-shadow">Tax <span className="title-highlight-alt">Schedule</span></h2>
+                    </div>
+                    <div className="row justify-content-around">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
                                     <h5>Define your own wealth tax schedule</h5>
                                     <p>Etiam ut felis nisl. Praesent bibendum, ante sit amet fringilla pretium, enim sem mattis nibh, sed sagittis ante orci non ante. Integer pulvinar enim sed ex luctus fringilla. Pellentesque commodo arcu nec metus pharetra ullamcorper. Nunc sit amet leo sit amet felis tincidunt fringilla. Curabitur nec purus ut nibh feugiat bibendum et et urna. Praesent sollicitudin pharetra urna sit amet lacinia. Aliquam erat volutpat.</p>
                                     <p>Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card mt-3 mb-3 shadow">
-                                <div class="card-body color-alt">
-                                    <div class="row ps-3 pe-3">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow">
+                                <div className="card-body color-alt">
+                                    <div className="row ps-3 pe-3">
                                         <WealthTaxSchedule
                                             bracketId={this.state.bracketId}
                                             thresholds={this.state.thresholds}
@@ -694,32 +707,32 @@ export class WealthTaxSimulator extends React.Component {
                                             )}
                                         />
                                     </div>
-                                    <div class="row justify-content-end mt-2 gx-2">
-                                        <div class="col-auto">
+                                    <div className="row justify-content-end mt-2 pe-1 gx-2 gy-2">
+                                        <div className="col-auto">
                                             <button
                                                 type="button"
-                                                class="btn btn-primary btn-sm"
+                                                className="btn btn-primary btn-sm"
                                                 onClick={() => this.addBracketAbove(this.state.thresholds.length)}
                                             >
-                                                <i class="fa-solid fa-plus"></i>&nbsp; Add bracket
+                                                <i className="fa-solid fa-plus"></i>&nbsp; Add bracket
                                             </button>
                                         </div>
-                                        <div class="col-auto">
+                                        <div className="col-auto">
                                             <button
                                                 type="button"
-                                                class="btn btn-primary btn-sm"
+                                                className="btn btn-primary btn-sm"
                                                 onClick={() => this.sortBrackets()}
                                             >
-                                                <i class="fa-solid fa-arrow-down-1-9"></i>&nbsp; Sort brackets
+                                                <i className="fa-solid fa-arrow-down-1-9"></i>&nbsp; Sort brackets
                                             </button>
                                         </div>
-                                        <div class="col-auto me-1">
+                                        <div className="col-auto">
                                             <button
                                                 type="button"
-                                                class="btn btn-danger btn-sm"
+                                                className="btn btn-danger btn-sm"
                                                 onClick={() => this.resetBrackets()}
                                             >
-                                                <i class="fa-solid fa-arrow-rotate-left"></i>&nbsp; Reset
+                                                <i className="fa-solid fa-arrow-rotate-left"></i>&nbsp; Reset
                                             </button>
                                         </div>
                                     </div>
@@ -728,31 +741,38 @@ export class WealthTaxSimulator extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div class="row mb-5">
-                    <h2 class="text-shadow"><span class="title-highlight-alt">Behavioral</span> Parameters</h2>
-                    <div class="row justify-content-around">
-                        <div class="col-lg-6">
-                            <div class="card mt-3 pt-2 mb-3 shadow">
-                                <div class="card-body">
+                <div className="row mb-5 justify-content-center">
+                    <div className="row">
+                        <h2 className="text-shadow"><span className="title-highlight-alt">Behavioral</span> Parameters</h2>
+                    </div>
+                    <div className="row justify-content-around">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
                                     <h5>Adjust How People React to the Tax</h5>
                                     <p>Etiam ut felis nisl. Praesent bibendum, ante sit amet fringilla pretium, enim sem mattis nibh, sed sagittis ante orci non ante. Integer pulvinar enim sed ex luctus fringilla. Pellentesque commodo arcu nec metus pharetra ullamcorper. Nunc sit amet leo sit amet felis tincidunt fringilla. Curabitur nec purus ut nibh feugiat bibendum et et urna. Praesent sollicitudin pharetra urna sit amet lacinia. Aliquam erat volutpat.</p>
                                     <p>Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card mt-3 mb-3 shadow behavioral-parameters">
-                                <div class="card-body color-alt">
-                                    <div class="row">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow behavioral-parameters">
+                                <div className="card-body color-alt">
+                                    <div className="row">
                                         <label
                                             htmlFor="tax-avoidance-range"
-                                            class="form-label ps-3 pe-3"
+                                            className="form-label ps-3 pe-3"
                                         >
-                                            Elasticity of tax avoidance <span class="parameter">&epsilon;&nbsp;=&nbsp;{this.state.taxAvoidanceElasticity}</span>
+                                            <div className="container">
+                                                <div className="row justify-content-start">
+                                                    <div className="col-auto py-1 px-0 me-2">Elasticity of tax avoidance</div>
+                                                    <div className="col-auto parameter py-1 px-2">&epsilon;&nbsp;=&nbsp;{this.state.taxAvoidanceElasticity}</div>
+                                                </div>
+                                            </div>
                                         </label>
                                         <input
                                             type="range"
-                                            class="form-range ps-3 pe-3"
+                                            className="form-range ps-3 pe-3"
                                             value={this.state.taxAvoidanceElasticity}
                                             min="0"
                                             max="8"
@@ -760,19 +780,24 @@ export class WealthTaxSimulator extends React.Component {
                                             id="tax-avoidance-range"
                                             onChange={this.handleChangeTaxAvoidanceElasticity}
                                         />
-                                        <p class="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
+                                        <p className="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                     </div>
                                     <hr/>
-                                    <div class="row">
+                                    <div className="row">
                                         <label
                                             htmlFor="consumption-range"
-                                            class="form-label ps-3 pe-3"
+                                            className="form-label ps-3 pe-3"
                                         >
-                                            Elasticity of consumption <span class="parameter">&eta;&nbsp;=&nbsp;{this.state.consumptionElasticity}</span>
+                                            <div className="container">
+                                                <div className="row justify-content-start">
+                                                    <div className="col-auto py-1 px-0 me-2">Elasticity of consumption</div>
+                                                    <div className="col-auto parameter py-1 px-2">&eta;&nbsp;=&nbsp;{this.state.consumptionElasticity}</div>
+                                                </div>
+                                            </div>
                                         </label>
                                         <input
                                             type="range"
-                                            class="form-range ps-3 pe-3"
+                                            className="form-range ps-3 pe-3"
                                             value={this.state.consumptionElasticity}
                                             min="0"
                                             max="8"
@@ -780,19 +805,24 @@ export class WealthTaxSimulator extends React.Component {
                                             id="consumption-range"
                                             onChange={this.handleChangeConsumptionElasticity}
                                         />
-                                        <p class="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
+                                        <p className="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                     </div>
                                     <hr/>
-                                    <div class="row">
+                                    <div className="row">
                                         <label
                                             htmlFor="mobility-range"
-                                            class="form-label ps-3 pe-3"
+                                            className="form-label ps-3 pe-3"
                                         >
-                                            Mobility in the wealth distribution <span class="parameter">&beta;&nbsp;=&nbsp;{this.state.mobilityAdjustment}</span>
+                                            <div className="container">
+                                                <div className="row justify-content-start">
+                                                    <div className="col-auto py-1 px-0 me-2">Mobility in the wealth distribution</div>
+                                                    <div className="col-auto parameter py-1 px-2">&beta;&nbsp;=&nbsp;{this.state.mobilityAdjustment}</div>
+                                                </div>
+                                            </div>
                                         </label>
                                         <input
                                             type="range"
-                                            class="form-range ps-3 pe-3"
+                                            className="form-range ps-3 pe-3"
                                             value={this.state.mobilityAdjustment}
                                             min="0.1"
                                             max="3"
@@ -800,30 +830,31 @@ export class WealthTaxSimulator extends React.Component {
                                             id="mobility-range"
                                             onChange={this.handleChangeMobilityAdjustment}
                                         />
-                                        <p class="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
+                                        <p className="ps-3 pe-3 mt-2 mb-0 muted small">Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <h2 class="text-shadow">See the <span class="title-highlight-alt">Results</span></h2>
-
-                    <div class="row justify-content-around mb-5">
-                        <div class="col-lg-6">
-                            <div class="card mt-3 pt-2 mb-3 shadow">
-                                <div class="card-body">
+                <div className="row justify-content-center">
+                    <div className="row">
+                        <h2 className="text-shadow">See the <span className="title-highlight-alt">Results</span></h2>
+                    </div>
+                    <div className="row justify-content-around mb-5">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
                                     <h5>How much money does the tax raise?</h5>
                                     <p>Etiam ut felis nisl. Praesent bibendum, ante sit amet fringilla pretium, enim sem mattis nibh, sed sagittis ante orci non ante. Integer pulvinar enim sed ex luctus fringilla. Pellentesque commodo arcu nec metus pharetra ullamcorper. Nunc sit amet leo sit amet felis tincidunt fringilla. Curabitur nec purus ut nibh feugiat bibendum et et urna. Praesent sollicitudin pharetra urna sit amet lacinia. Aliquam erat volutpat.</p>
                                     <p>Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card mt-3 mb-3 shadow">
-                                <div class="card-body color-alt">
-                                    <div class="row ps-3 pe-3">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow">
+                                <div className="card-body color-alt">
+                                    <div className="row ps-3 pe-3">
                                         <WealthTaxRevenue
                                             thresholds={this.sortedThresholds}
                                             marginalRates={this.sortedMarginalRates}
@@ -842,20 +873,20 @@ export class WealthTaxSimulator extends React.Component {
                         </div>
                     </div>
 
-                    <div class="row justify-content-around mb-5">
-                        <div class="col-lg-6">
-                            <div class="card mt-3 pt-2 mb-3 shadow">
-                                <div class="card-body">
+                    <div className="row justify-content-around mb-5">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
                                     <h5>How does it affect wealth inequality?</h5>
                                     <p>Etiam ut felis nisl. Praesent bibendum, ante sit amet fringilla pretium, enim sem mattis nibh, sed sagittis ante orci non ante. Integer pulvinar enim sed ex luctus fringilla. Pellentesque commodo arcu nec metus pharetra ullamcorper. Nunc sit amet leo sit amet felis tincidunt fringilla. Curabitur nec purus ut nibh feugiat bibendum et et urna. Praesent sollicitudin pharetra urna sit amet lacinia. Aliquam erat volutpat.</p>
                                     <p>Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card mt-3 mb-3 shadow">
-                                <div class="card-body color-alt">
-                                    <div class="row ps-3 pe-3">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow">
+                                <div className="card-body color-alt">
+                                    <div className="row ps-3 pe-3">
                                         <div>
                                             <Bar data={this.inequalityChartData} options={this.inequalityChartOptions}/>
                                         </div>
@@ -865,20 +896,20 @@ export class WealthTaxSimulator extends React.Component {
                         </div>
                     </div>
 
-                    <div class="row justify-content-around">
-                        <div class="col-lg-6">
-                            <div class="card mt-3 pt-2 mb-3 shadow">
-                                <div class="card-body">
+                    <div className="row justify-content-around">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
                                     <h5>Can you raise more tax revenue?</h5>
                                     <p>Etiam ut felis nisl. Praesent bibendum, ante sit amet fringilla pretium, enim sem mattis nibh, sed sagittis ante orci non ante. Integer pulvinar enim sed ex luctus fringilla. Pellentesque commodo arcu nec metus pharetra ullamcorper. Nunc sit amet leo sit amet felis tincidunt fringilla. Curabitur nec purus ut nibh feugiat bibendum et et urna. Praesent sollicitudin pharetra urna sit amet lacinia. Aliquam erat volutpat.</p>
                                     <p>Donec ex nunc, ultrices eget mattis viverra, dignissim non leo. Integer lacus nulla, dignissim eget dui ac, luctus tristique justo. Vestibulum arcu sem, iaculis et quam in, vehicula feugiat nibh. Curabitur faucibus sed enim pellentesque efficitur.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card mt-3 mb-3 shadow">
-                                <div class="card-body color-alt">
-                                    <div class="row ps-3 pe-3">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow">
+                                <div className="card-body color-alt">
+                                    <div className="row ps-3 pe-3">
                                         <Scatter data={this.lafferChartData} options={this.lafferChartOptions}/>
                                     </div>
                                 </div>
