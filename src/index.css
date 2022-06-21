@@ -55,10 +55,6 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   margin-right: 80px;
   max-width: 400px;
 }
-.annotation img {
-  transform: rotate(20deg);
-}
-
 .btn {
   border-radius: 0;
   border: none;
@@ -117,6 +113,15 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
 .card .color-alt table input {
   border-radius: 0;
   border: none;
+}
+
+.explainer .card {
+  background-color: #264653ff;
+  color: white;
+}
+.explainer a {
+  color: #e76f51ff;
+  text-decoration: none;
 }
 
 .tax-revenue {

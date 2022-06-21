@@ -79,7 +79,7 @@ h1, h2, h3, h3, h4, h5 {
     margin-right: 80px;
     max-width: 400px;
     img {
-        transform: rotate(20deg);
+        //transform: rotate(20deg);
     }
 }
 
@@ -143,6 +143,17 @@ h1, h2, h3, h3, h4, h5 {
                 border: none;
             }
         }
+    }
+}
+
+.explainer {
+    .card {
+        background-color: $charcoal;
+        color: white;
+    }
+    a {
+        color: $burnt-sienna;
+        text-decoration: none;
     }
 }
 
