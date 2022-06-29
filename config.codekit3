@@ -17,26 +17,10 @@
       "oAP" : "\/.gitignore",
       "oF" : 0
     },
-    "\/.vs\/long-run-wealth-tax-simulator\/xs\/UserPrefs.xml" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/.vs\/long-run-wealth-tax-simulator\/xs\/UserPrefs.xml",
-      "oF" : 0
-    },
     "\/build" : {
       "ft" : 65536,
       "oA" : 1,
       "oAP" : "\/build",
-      "oF" : 0
-    },
-    "\/long-run-wealth-tax-simulator.sln" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/long-run-wealth-tax-simulator.sln",
       "oF" : 0
     },
     "\/node_modules" : {
