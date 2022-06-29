@@ -867,8 +867,8 @@ export class WealthTaxSimulator extends React.Component {
                             <div className="card mt-3 pt-2 mb-3 shadow">
                                 <div className="card-body">
                                     <h5>How does it affect wealth inequality?</h5>
-                                    <p>Wealth taxation lowers wealth inequality in the long run because it limits people’s ability to accumulate money at the top. This chart estimates how large these effects are.</p>
-                                    <p>For each top wealth group, it shows their current share of wealth and the share of the wealth they would eventually get if your wealth tax were put in place.</p>
+                                    <p>Progressive wealth taxation lowers wealth inequality in the long run because it limits the wealthiest people’s ability to accumulate money.</p>
+                                    <p>This chart estimates how large these effects are. For each top wealth group, it shows their current share of wealth and the share of the wealth they would eventually have if the wealth tax were put in place.</p>
                                 </div>
                             </div>
                         </div>

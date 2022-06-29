@@ -53,21 +53,21 @@ h1, h2, h3, h3, h4, h5 {
 }
 
 .footer {
-  color: #FFF;
-  text-align: center;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.2rem;
-  background-color: $dark-teal;
-  padding: 50px 20px 50px 20px;
-  margin: 0 0 0 0;
-  p {
-    line-height: 2.4rem;
-    margin: 0;
-  }
-  a {
     color: #FFF;
-    line-height: 1.6rem;
-  }
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    background-color: $dark-teal;
+    padding: 50px 20px 50px 20px;
+    margin: 0 0 0 0;
+    p {
+        line-height: 2.4rem;
+        margin: 0;
+    }
+    a {
+        color: #FFF;
+        line-height: 1.6rem;
+    }
 }
 
 .annotation {
