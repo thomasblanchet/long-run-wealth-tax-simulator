@@ -454,6 +454,7 @@ export class WealthTaxSimulator extends React.Component {
             altTaxRevenue[j] = altTaxPaid
                 .map((y, i) => y*altLongRunWeights[i])
                 .reduce((x, y) => x + y, 0);
+            altTaxRevenue[j] = altTaxRevenue[j] >= 0 ? altTaxRevenue[j] : 0;
             altTaxRevenue[j] = altTaxRevenue[j]/this.wealthData['nationalIncome'];
         }
 
