@@ -677,8 +677,8 @@ export class WealthTaxSimulator extends React.Component {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow">
-                                <div className="card-body color-alt">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
                                     <div className="row ps-3 pe-3">
                                         <WealthTaxSchedule
                                             bracketId={this.state.bracketId}
@@ -747,8 +747,8 @@ export class WealthTaxSimulator extends React.Component {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow behavioral-parameters">
-                                <div className="card-body color-alt">
+                            <div className="card mt-3 mb-3 shadow behavioral-parameters color-alt">
+                                <div className="card-body">
                                     <div className="row">
                                         <label
                                             htmlFor="tax-avoidance-range"
@@ -842,8 +842,8 @@ export class WealthTaxSimulator extends React.Component {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow">
-                                <div className="card-body color-alt">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
                                     <div className="row ps-3 pe-3">
                                         <WealthTaxRevenue
                                             thresholds={this.sortedThresholds}
@@ -874,8 +874,8 @@ export class WealthTaxSimulator extends React.Component {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow">
-                                <div className="card-body color-alt">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
                                     <div className="row ps-3 pe-3">
                                         <div>
                                             <Bar data={this.inequalityChartData} options={this.inequalityChartOptions}/>
@@ -898,8 +898,8 @@ export class WealthTaxSimulator extends React.Component {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow">
-                                <div className="card-body color-alt">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
                                     <div className="row ps-3 pe-3">
                                         <Scatter data={this.lafferChartData} options={this.lafferChartOptions}/>
                                     </div>

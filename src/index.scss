@@ -120,28 +120,30 @@ h1, h2, h3, h3, h4, h5 {
 
 .card {
     color: #000;
-    border-radius: 0;
+    //border-radius: 50px;
     border: none;
     background-color: #FFF;
-    & .color-alt {
+    &.color-alt {
         background-color: $persian-green;
         color: #FFF;
-        table {
-            color: #FFF;
-            margin: 0;
-            padding: 0;
-            tr {
-                border-bottom: 2px solid $middle-blue-green;
-            }
-            tfoot {
-                font-weight: bold;
+        .card-body {
+            table {
+                color: #FFF;
+                margin: 0;
+                padding: 0;
                 tr {
-                    border-color: $persian-green;
+                    border-bottom: 2px solid $middle-blue-green;
                 }
-            }
-            input {
-                border-radius: 0;
-                border: none;
+                tfoot {
+                    font-weight: bold;
+                    tr {
+                        border-color: $persian-green;
+                    }
+                }
+                input {
+                    border-radius: 0;
+                    border: none;
+                }
             }
         }
     }

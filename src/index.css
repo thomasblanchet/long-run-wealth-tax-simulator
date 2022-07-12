@@ -93,29 +93,28 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
 
 .card {
   color: #000;
-  border-radius: 0;
   border: none;
   background-color: #FFF;
 }
-.card .color-alt {
+.card.color-alt {
   background-color: #2a9d8fff;
   color: #FFF;
 }
-.card .color-alt table {
+.card.color-alt .card-body table {
   color: #FFF;
   margin: 0;
   padding: 0;
 }
-.card .color-alt table tr {
+.card.color-alt .card-body table tr {
   border-bottom: 2px solid #94d2bdff;
 }
-.card .color-alt table tfoot {
+.card.color-alt .card-body table tfoot {
   font-weight: bold;
 }
-.card .color-alt table tfoot tr {
+.card.color-alt .card-body table tfoot tr {
   border-color: #2a9d8fff;
 }
-.card .color-alt table input {
+.card.color-alt .card-body table input {
   border-radius: 0;
   border: none;
 }
