@@ -91,6 +91,12 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   background-color: #e76f51ff;
 }
 
+.toast {
+  background-color: #bb3e03ff;
+  max-width: 500px;
+  width: 500px;
+}
+
 .card {
   color: #000;
   border: none;

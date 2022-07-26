@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toast } from 'bootstrap';
 
 import { WealthTaxSchedule } from './WealthTaxSchedule';
 import { WealthTaxRevenue } from './WealthTaxRevenue';
@@ -465,6 +466,7 @@ export class WealthTaxSimulator extends React.Component {
 
         return lafferCurve;
     }
+
     makeLafferChart(thresholds, marginalRates) {
         let lafferCurve = this.estimateLafferCurve(thresholds, marginalRates);
 
@@ -657,6 +659,11 @@ export class WealthTaxSimulator extends React.Component {
         this.setState({
             mobilityAdjustment: event.target.value
         });
+    }
+    componentDidUpdate() {
+        const toastElem = document.getElementById('completed-alert');
+        const toast = new Toast(toastElem);
+        toast.show();
     }
     render() {
         this.runSimulation()
