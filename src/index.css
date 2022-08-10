@@ -65,6 +65,19 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   border: none;
 }
 
+.btn-success {
+  background-color: #0a9396ff;
+}
+.btn-success:hover {
+  background-color: #0dc2c6;
+}
+.btn-success.active, .btn-success:active {
+  background-color: #0a9396ff;
+}
+.btn-success.focus, .btn-success:focus {
+  background-color: #0a9396ff;
+}
+
 .btn-primary {
   background-color: #005f73ff;
 }

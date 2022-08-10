@@ -89,6 +89,18 @@ h1, h2, h3, h3, h4, h5 {
     border: none;
 }
 
+.btn-success {
+    background-color: $viridian-green;
+    &:hover {
+        background-color: lighten($viridian-green, 10);
+    }
+    &.active, &:active {
+        background-color: $viridian-green;
+    }
+    &.focus, &:focus {
+        background-color: $viridian-green;
+    }
+}
 .btn-primary {
     background-color: $blue-sapphire;
     &:hover {
@@ -124,7 +136,6 @@ h1, h2, h3, h3, h4, h5 {
 
 .card {
     color: #000;
-    //border-radius: 50px;
     border: none;
     background-color: #FFF;
     &.color-alt {
