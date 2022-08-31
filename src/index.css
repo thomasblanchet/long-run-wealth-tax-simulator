@@ -140,6 +140,12 @@ h1 .title-highlight-alt, h2 .title-highlight-alt, h3 .title-highlight-alt, h3 .t
   background-color: #264653ff;
   color: white;
 }
+.explainer .card .card-body {
+  overflow: scroll;
+}
+.explainer hr {
+  border-top: 2px solid #0a9396ff;
+}
 .explainer a {
   color: #e76f51ff;
   text-decoration: none;
