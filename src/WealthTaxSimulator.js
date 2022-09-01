@@ -813,7 +813,7 @@ export class WealthTaxSimulator extends React.Component {
                                         >
                                             <div className="container">
                                                 <div className="row justify-content-start">
-                                                    <div className="col-auto py-1 px-0 me-2">Mobility in the wealth distribution</div>
+                                                    <div className="col-auto py-1 px-0 me-2">Mobility in the wealth distribution (multiplier)</div>
                                                     <div className="col-auto parameter py-1 px-2">&beta;&nbsp;=&nbsp;{this.state.mobilityAdjustment}</div>
                                                 </div>
                                             </div>
@@ -828,7 +828,7 @@ export class WealthTaxSimulator extends React.Component {
                                             id="mobility-range"
                                             onChange={this.handleChangeMobilityAdjustment}
                                         />
-                                        <p className="ps-3 pe-3 mt-2 mb-0 muted small">Mobility in the wealth distribution changes the effects of the wealth tax. When mobility is very high, people only spend a short time in a given wealth bracket. And new people with their previously untaxed wealth keep entering the tax schedule. Therefore, the wealth tax has a limited effect on the distribution. But if mobility is low, the wealth tax repeatedly taxes the same wealth: in the long run, little wealth is left to tax. By default, the model is calibrated to match the wealth mobility observed in the United States. But you can adjust it by a factor &beta;. When &beta; is high, the wealth can raise more revenue.</p>
+                                        <p className="ps-3 pe-3 mt-2 mb-0 muted small">Mobility in the wealth distribution changes the effects of the wealth tax. When mobility is very high, people only spend a short time in a given wealth bracket. And new people with their previously untaxed wealth keep entering the tax schedule. Therefore, the wealth tax has a limited effect on the distribution. But if mobility is low, the wealth tax repeatedly taxes the same wealth: in the long run, little wealth is left to tax. By default, the model is calibrated to match the wealth mobility observed in the United States. But you can adjust it by a factor &beta;. When &beta; is high, the wealth tax can raise more revenue.</p>
                                     </div>
                                 </div>
                             </div>
@@ -898,9 +898,9 @@ export class WealthTaxSimulator extends React.Component {
                             <div className="card mt-3 pt-2 mb-3 shadow">
                                 <div className="card-body">
                                     <h5>Can you raise more revenue?</h5>
-                                    <p>You face a trade-off when trying to raise as much revenue as possible from a wealth tax. On the one hand, raising the tax rates lets you extract more money from the tax base. On the other hand, higher rates shrink the tax base itself as it makes people accumulate less money. Consider the two extremes: with a 0% tax rate, you raise no revenue. But with a 100% tax rate, you likely won’t raise any money either because no one will accumulate wealth if it means having to pay a 100% tax rate. The rate that maximizes tax revenue is somewhere in between.</p>
+                                    <p>You face a trade-off when trying to raise as much revenue as possible from a wealth tax. On the one hand, raising the tax rates lets you extract more money from the tax base. On the other hand, higher rates shrink the tax base itself as it makes people accumulate less money. Consider the two extremes: with a 0% tax rate, you raise no revenue. But with a 100% tax rate, you’re unlikely to raise any money either because no one will accumulate wealth if it means having to pay a 100% tax rate. The rate that maximizes tax revenue is somewhere in between.</p>
                                     <p>This chart looks at variants of the tax schedule you provided. Each variant alters your tax rates so that they go from 0% to 100% on average. For each variant, it calculates the long-run tax revenue. It then plots the results as a line that relates the average marginal tax rate to the tax revenue.</p>
-                                    <p>The result is an inverted U-shaped curve. The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, then you can try to raise more revenue by increasing your wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
+                                    <p>The result is an inverted U-shaped curve, sometimes known as the “Laffer curve.” The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, then you can try to raise more revenue by increasing the wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
                                 </div>
                             </div>
                         </div>

@@ -95,17 +95,17 @@
                     <div class="card">
                         <div class="card-body shadow">
                             <h2>How does this <span class="title-highlight">work</span>?</h2>
-                            <p>For the complete analytical details, you can read the paper this simulator is based on: <a href="Blanchet2022_JMP.pdf" target="_blank"><em>“Uncovering the Dynamics of the Wealth Distribution”</em> by Thomas Blanchet &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a></p>
+                            <p>For the complete analytical details, you can read the paper this simulator is based on: <a href="Blanchet2022_JMP.pdf" target="_blank"><em>“Uncovering the Dynamics of the Wealth Distribution”</em> by Thomas Blanchet (2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a></p>
                             <p>Below is a brief explanation.</p>
                             <hr/>
                             <h5><span class="title-highlight">Modelisation</span> of wealth accumulation</h5>
                             <p>I assume that people’s wealth \(w_{it}\) follows a continuous time drift-diffusion process characterized by:</p>
-                            <p>\[\mathrm{d} w_{it} = \mu(w_{it})\,\mathrm{d}t + \sigma(w_{it})\,\mathrm{d}B_t\]</p>
+                            <p>\[\mathrm{d} w_{it} = \mu(w_{it})\,\mathrm{d}t + \sigma(w_{it})\,\mathrm{d}B_{it}\]</p>
                             <p>where the parameters \(\mu(w_{it})\) and \(\sigma(w_{it})\) are directly estimated so as to reproduce the trajectory of the wealth distribution since the 1980s.</p>
                             <h5>Introduction of a wealth tax: <span class="title-highlight">mechanical</span> effect</h5>
                             <p>Now, introduce a wealth tax \(\tau(w)\). Ignoring behavioral responses for the moment, the dynamic of wealth is now:</p>
-                            <p>\[\mathrm{d} w_{it} = [\mu(w_{it}) - \tau(w_{it})]\,\mathrm{d}t + \sigma(w_{it})\,\mathrm{d}B_t\]</p>
-                            <p>Blanchet&nbsp;(2022) shows that if the original steady-state distribution of wealth was \(f(w)\), then the steady-state distribution of wealth with the tax is:</p>
+                            <p>\[\mathrm{d} w_{it} = [\mu(w_{it}) - \tau(w_{it})]\,\mathrm{d}t + \sigma(w_{it})\,\mathrm{d}B_{it}\]</p>
+                            <p><a href="Blanchet2022_JMP.pdf" target="_blank">Blanchet&nbsp;(2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a> shows that if the original steady-state distribution of wealth was \(f(w)\), then the steady-state distribution of wealth with the tax is:</p>
                             <p>\[g(w) \propto f(w)\exp\left\{-\int_{-\infty}^w \frac{2\tau(s)}{\sigma^2(s)}\,\mathrm{d}s\right\}\]</p>
                             <hr/>
                             <h5><span class="title-highlight">Behavioral</span> effects</h5>
@@ -117,7 +117,7 @@
                             <p>where \(c(w)\) is an estimate of average consumption calibrated to match the evolution of wealth inequality since the 1980s.</p>
                             <hr/>
                             <h5><span class="title-highlight">Practical</span> implementation</h5>
-                            <p>This simulator uses the most recent estimate of the wealth distribution in the United States from Blanchet, Saez, and Zucman&nbsp;(2022) as the baseline long-run wealth distribution. This constitutes a reasonable approximation given that Blanchet&nbsp;(2022) finds that the current wealth distribution is close to its steady state. This data takes the form of simplified microdata. I use discretized versions of the formulas above and use them to reweight the microdata appropriately.</p>
+                            <p>This simulator uses a recent estimate of the wealth distribution in the United States from <a href="https://www.nber.org/papers/w30229" target="=_blank">Saez, and Zucman&nbsp;(2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a> as the baseline long-run wealth distribution. This constitutes a reasonable approximation given that <a href="Blanchet2022_JMP.pdf" target="_blank">Blanchet&nbsp;(2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a> finds that the current wealth distribution is close to its steady state. This data takes the form of simplified microdata. I use discretized versions of the formulas above and use them to reweight the microdata appropriately.</p>
                             <p>To construct the last graph (tax revenue as a function of the average marginal tax rate), I alter the tax schedule provided by the user as follows. For any bracket \(k\) with marginal rate \(\tau_k\), and for any average marginal tax rate \(\bar{\tau}\), I define \(\tau^*_k = \tau_k + \phi(\bar{\tau})\tau_k(1-\tau_k)\) where \(\phi(\bar{\tau})\) is chosen so that the average marginal tax rate of the tax schedule defined by the user’s thresholds and the marginal rates \((\tau_1, \dots, \tau_k)\) is equal to \(\bar{\tau}\).</p>
                         </div>
                     </div>
