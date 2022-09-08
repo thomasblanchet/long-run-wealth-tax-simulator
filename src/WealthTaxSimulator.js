@@ -678,7 +678,7 @@ export class WealthTaxSimulator extends React.Component {
                             <div className="card mt-3 pt-2 mb-3 shadow">
                                 <div className="card-body">
                                     <h5>Define your own wealth tax schedule</h5>
-                                    <p>Use this section to define your own tax schedule: you can specify any number of brackets by indicating their lower thresholds (expressed in millions of dollars) and the corresponding marginal tax rate on wealth (in percent) to apply in each of them.</p>
+                                    <p>Use this section to define your tax schedule: you can specify any number of brackets by indicating their lower thresholds (expressed in millions of dollars) and the corresponding marginal tax rate on wealth (in percent) to apply in each of them.</p>
                                     <p>Don’t worry about the order. The program automatically sorts the brackets from the lowest to the highest threshold. If you prefer, use “Sort brackets” to sort them explicitly.</p>
                                 </div>
                             </div>
@@ -748,7 +748,7 @@ export class WealthTaxSimulator extends React.Component {
                             <div className="card mt-3 pt-2 mb-3 shadow">
                                 <div className="card-body">
                                     <h5>Adjust How People React to the Tax</h5>
-                                    <p>Taxation changes how much wealth that is available to be taxed. When people have to pay a wealth tax, they end up with less disposable income, so they have less money available for savings. They may also decide to consume more rather than save and pay the tax on the wealth they accumulated. Finally, they may also decide to hide some of their wealth by engaging in tax evasion or tax avoidance.</p>
+                                    <p>Taxation changes how much wealth is available to be taxed. When people have to pay a wealth tax, they end up with less disposable income, so they have less money available for savings. They may also decide to consume more rather than save and pay the tax on the wealth they accumulate. Finally, they may also decide to hide some of their wealth by engaging in tax evasion or tax avoidance.</p>
                                     <p>This simulator accounts for these effects based on three parameters. You can keep the default settings, with have been chosen to align with the available evidence on reactions to wealth taxes. Or you can choose different values.</p>
                                 </div>
                             </div>
@@ -844,7 +844,7 @@ export class WealthTaxSimulator extends React.Component {
                             <div className="card mt-3 pt-2 mb-3 shadow">
                                 <div className="card-body">
                                     <h5>How much money does your tax raise?</h5>
-                                    <p>This table describes how much money you get from each wealth tax bracket if it were enacted in the United States. It includes two variants: the “short-run” estimate only accounts for tax avoidance and indicates how much revenue you would get during the first few years. But over time, people progressively accumulate less wealth as a result of the tax. Decades later, the amount of wealth available to be taxed will be lower. The “long-run” estimate shows how much money you will still be able to raise despite these effects.</p>
+                                    <p>This table describes how much money you get from each wealth tax bracket if your tax were enacted in the United States. It includes two variants: the “short-run” estimate only accounts for tax avoidance and indicates how much revenue you would get during the first few years. But over time, people progressively accumulate less wealth due to the tax. Decades later, the wealth available to be taxed will be lower. The “long-run” estimate shows how much money you will still be able to raise despite these effects.</p>
                                 </div>
                             </div>
                         </div>
@@ -900,7 +900,7 @@ export class WealthTaxSimulator extends React.Component {
                                     <h5>Can you raise more revenue?</h5>
                                     <p>You face a trade-off when trying to raise as much revenue as possible from a wealth tax. On the one hand, raising the tax rates lets you extract more money from the tax base. On the other hand, higher rates shrink the tax base itself as it makes people accumulate less money. Consider the two extremes: with a 0% tax rate, you raise no revenue. But with a 100% tax rate, you’re unlikely to raise any money either because no one will accumulate wealth if it means having to pay a 100% tax rate. The rate that maximizes tax revenue is somewhere in between.</p>
                                     <p>This chart looks at variants of the tax schedule you provided. Each variant alters your tax rates so that they go from 0% to 100% on average. For each variant, it calculates the long-run tax revenue. It then plots the results as a line that relates the average marginal tax rate to the tax revenue.</p>
-                                    <p>The result is an inverted U-shaped curve, sometimes known as the “Laffer curve.” The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, then you can try to raise more revenue by increasing the wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
+                                    <p>The result is an inverted U-shaped curve, sometimes called the “Laffer curve.” The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, you can raise more revenue by increasing the wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
                                 </div>
                             </div>
                         </div>
