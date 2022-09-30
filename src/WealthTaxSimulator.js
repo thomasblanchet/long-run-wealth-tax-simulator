@@ -263,6 +263,12 @@ export class WealthTaxSimulator extends React.Component {
         this.totalPopShortRun = this.popShortRun.reduce((x, y) => x + y, 0);
 
         this.avgMarginalRate = this.avgMarginalRate/(this.totalPopShortRun*this.wealthData['population']);
+
+        // Zap small values
+        this.taxRevenueLongRun = this.taxRevenueLongRun.map((y) => y < 1e-8 ? 0 : y);
+        this.taxRevenueShortRun = this.taxRevenueShortRun.map((y) => y < 1e-8 ? 0 : y);
+        this.popLongRun = this.popLongRun.map((y) => y < 1e-8 ? 0 : y);
+        this.popShortRun = this.popShortRun.map((y) => y < 1e-8 ? 0 : y);
     }
     estimateLongRunInequality(taxPaid, longRunWeights) {
         let n = longRunWeights.length;
@@ -423,7 +429,7 @@ export class WealthTaxSimulator extends React.Component {
 
         // Adjustments coefficients used to match alternative average tax rates
         // (proportional to mtr*(1 - mtr)
-        let altAvgMarginalRatesCoefs = marginalRates.map((mtr) => mtr*(1 - mtr));
+        let altAvgMarginalRatesCoefs = marginalRates.map((mtr) => 1 - mtr);
         let altAvgMarginalRatesCoefsMean = 0;
         let k = 0;
         for (let i = 0; i < n; i++) {
