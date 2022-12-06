@@ -47,55 +47,34 @@ export class WealthTaxSimulator extends React.Component {
             marginalRates: [2, 4, 6, 10],
             consumptionElasticity: 1,
             taxAvoidanceElasticity: 1,
-            mobilityAdjustment: 1
+            mobilityAdjustment: 1,
+            useRebate: false,
         };
     }
     estimateBaselineInequality() {
         let n = this.wealthData['weight'].length;
-        this.shareTop10 = 0;
-        this.shareTop5 = 0;
-        this.shareTop1 = 0;
-        this.shareTop01 = 0;
-        this.shareTop001 = 0;
+
+        let brackets = [0.5, 0.9, 0.95, 0.99, 0.999, 0.9999, Infinity].map((p) => p*this.wealthData['population']);
+        this.shares = [0, 0, 0, 0, 0, 0, 0];
+
         let cumWeights = 0;
+        let k = 0;
         for (let i = 0; i < n; i++) {
-            let wgt = this.wealthData['weight'][n - i - 1];
+            let wgt = this.wealthData['weight'][i];
+            let wealth = this.wealthData['wealth'][i];
             cumWeights += wgt;
-            let p = 100*cumWeights/this.wealthData['population'];
-            if (p < 0.01) {
-                this.shareTop001 += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop01  += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 0.1) {
-                this.shareTop01  += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 1) {
-                this.shareTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 5) {
-                this.shareTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 10) {
-                this.shareTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else {
-                break;
+            if (cumWeights > brackets[k]) {
+                k += 1
             }
+            this.shares[k] += wgt*wealth;
         }
-        this.shareTop10  = this.shareTop10  / this.wealthData['nationalWealth'];
-        this.shareTop5   = this.shareTop5   / this.wealthData['nationalWealth'];
-        this.shareTop1   = this.shareTop1   / this.wealthData['nationalWealth'];
-        this.shareTop01  = this.shareTop01  / this.wealthData['nationalWealth'];
-        this.shareTop001 = this.shareTop001 / this.wealthData['nationalWealth'];
+        this.shares = this.shares.map((y) => 100*y/this.wealthData['nationalWealth']);
     }
     resetBrackets() {
         this.setState({
             thresholds: [50, 200, 500, 1000],
-            marginalRates: [2, 4, 6, 10]
+            marginalRates: [2, 4, 6, 10],
+            useRebate: false,
         });
     }
     getSortedBrackets() {
@@ -197,7 +176,7 @@ export class WealthTaxSimulator extends React.Component {
         }
         return(taxPaid);
     }
-    estimateLongRunWeights(taxPaid, extraConsumption) {
+    estimateLongRunWeights(taxPaid, extraConsumption, rebate) {
         let n = taxPaid.length;
 
         let longRunReweighting = new Array(n);
@@ -205,7 +184,7 @@ export class WealthTaxSimulator extends React.Component {
         for (let i = 1; i < n; i++) {
             let dw = this.wealthData['wealth'][i] - this.wealthData['wealth'][i - 1];
             longRunReweighting[i] = longRunReweighting[i - 1] +
-                2*(taxPaid[i] + extraConsumption[i])/Math.pow(this.state.mobilityAdjustment*this.wealthData['diffusion'][i], 2)*dw;
+                2*(taxPaid[i] + extraConsumption[i] - rebate)/Math.pow(this.state.mobilityAdjustment*this.wealthData['diffusion'][i], 2)*dw;
         }
         longRunReweighting = longRunReweighting.map((y) => Math.exp(-y));
 
@@ -217,9 +196,21 @@ export class WealthTaxSimulator extends React.Component {
         longRunWeights = longRunWeights.map(
             (w) => w*(this.wealthData['population']/sumLongRunWeights)
         );
+
         return(longRunWeights);
     }
-    estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights) {
+    estimateLongRunWeightsWithRebate(taxPaid, extraConsumption) {
+        // Get initial value assuming no rebate
+        let longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption, 0);
+        let rebate = longRunWeights.reduce((x, y, i) => x + y*taxPaid[i])/this.wealthData['population'];
+        // We do a few iterations (enough for a good approximation)
+        for (let k = 0; k < 10; k++) {
+            longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption, rebate);
+            rebate = longRunWeights.reduce((x, y, i) => x + y*taxPaid[i])/this.wealthData['population'];
+        }
+        return(longRunWeights);
+    }
+    estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights, longRunWeightsNoRebate) {
         let n = longRunWeights.length;
 
         this.longRunWealth = this.wealthData['wealth']
@@ -230,6 +221,8 @@ export class WealthTaxSimulator extends React.Component {
         this.taxRevenueShortRun.fill(0);
         this.taxRevenueLongRun = new Array(thresholds.length);
         this.taxRevenueLongRun.fill(0);
+        this.taxRevenueLongRunNoRebate = new Array(thresholds.length);
+        this.taxRevenueLongRunNoRebate.fill(0);
         this.popShortRun = new Array(thresholds.length);
         this.popShortRun.fill(0);
         this.popLongRun = new Array(thresholds.length);
@@ -247,17 +240,20 @@ export class WealthTaxSimulator extends React.Component {
                 this.popShortRun[k] += this.wealthData['weight'][i];
 
                 this.taxRevenueLongRun[k] += taxPaid[i]*longRunWeights[i];
+                this.taxRevenueLongRunNoRebate[k] += taxPaid[i]*longRunWeightsNoRebate[i];
                 this.taxRevenueShortRun[k] += taxPaid[i]*this.wealthData['weight'][i];
 
                 this.avgMarginalRate += marginalRates[k]*this.wealthData['weight'][i];
             }
         }
         this.taxRevenueLongRun = this.taxRevenueLongRun.map((y, i) => y/this.wealthData['nationalIncome']);
+        this.taxRevenueLongRunNoRebate = this.taxRevenueLongRunNoRebate.map((y, i) => y/this.wealthData['nationalIncome']);
         this.taxRevenueShortRun = this.taxRevenueShortRun.map((y, i) => y/this.wealthData['nationalIncome']);
         this.popLongRun = this.popLongRun.map((y, i) => y/this.wealthData['population']);
         this.popShortRun = this.popShortRun.map((y, i) => y/this.wealthData['population']);
 
         this.totalTaxRevenueLongRun = this.taxRevenueLongRun.reduce((x, y) => x + y, 0);
+        this.totalTaxRevenueLongRunNoRebate = this.taxRevenueLongRunNoRebate.reduce((x, y) => x + y, 0);
         this.totalTaxRevenueShortRun = this.taxRevenueShortRun.reduce((x, y) => x + y, 0);
         this.totalPopLongRun = this.popLongRun.reduce((x, y) => x + y, 0);
         this.totalPopShortRun = this.popShortRun.reduce((x, y) => x + y, 0);
@@ -273,45 +269,21 @@ export class WealthTaxSimulator extends React.Component {
     estimateLongRunInequality(taxPaid, longRunWeights) {
         let n = longRunWeights.length;
 
-        this.shareLongRunTop10 = 0;
-        this.shareLongRunTop5 = 0;
-        this.shareLongRunTop1 = 0;
-        this.shareLongRunTop01 = 0;
-        this.shareLongRunTop001 = 0;
+        let brackets = [0.5, 0.9, 0.95, 0.99, 0.999, 0.9999, Infinity].map((p) => p*this.wealthData['population']);
+        this.sharesLongRun = [0, 0, 0, 0, 0, 0, 0];
+
         let cumWeights = 0;
+        let k = 0;
         for (let i = 0; i < n; i++) {
-            let wgt = longRunWeights[n - i - 1];
+            let wgt = longRunWeights[i];
+            let wealth = this.wealthData['wealth'][i];
             cumWeights += wgt;
-            let p = 100*cumWeights/this.wealthData['population'];
-            if (p < 0.01) {
-                this.shareLongRunTop001 += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop01  += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 0.1) {
-                this.shareLongRunTop01  += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 1) {
-                this.shareLongRunTop1   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 5) {
-                this.shareLongRunTop5   += wgt*this.wealthData['wealth'][n - i - 1];
-                this.shareLongRunTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else if (p < 10) {
-                this.shareLongRunTop10  += wgt*this.wealthData['wealth'][n - i - 1];
-            } else {
-                break;
+            if (cumWeights > brackets[k]) {
+                k += 1
             }
+            this.sharesLongRun[k] += wgt*wealth;
         }
-        this.shareLongRunTop10  = this.shareLongRunTop10  / this.longRunWealth;
-        this.shareLongRunTop5   = this.shareLongRunTop5   / this.longRunWealth;
-        this.shareLongRunTop1   = this.shareLongRunTop1   / this.longRunWealth;
-        this.shareLongRunTop01  = this.shareLongRunTop01  / this.longRunWealth;
-        this.shareLongRunTop001 = this.shareLongRunTop001 / this.longRunWealth;
+        this.sharesLongRun = this.sharesLongRun.map((y) => 100*y/this.longRunWealth);
     }
     makeInequalityChart() {
         this.inequalityChartOptions = {
@@ -392,22 +364,35 @@ export class WealthTaxSimulator extends React.Component {
             },
         };
 
-        const labels = ['Top 10%', 'Top 5%', 'Top 1%', 'Top 0.1%', 'Top 0.01%'];
+        const labels = ['Bottom 50%', 'Middle 40%', 'Top 10%', 'Top 5%', 'Top 1%', 'Top 0.1%', 'Top 0.01%'];
         this.inequalityChartData = {
             labels,
             datasets: [
                 {
                     label: 'Current wealth share',
-                    data: [this.shareTop10, this.shareTop5, this.shareTop1,
-                        this.shareTop01, this.shareTop001].map((x, i) => 100*x),
+                    data: [
+                        this.shares[0],
+                        this.shares[1],
+                        this.shares[2] + this.shares[3] + this.shares[5] + this.shares[5] + this.shares[6],
+                        this.shares[3] + this.shares[5] + this.shares[5] + this.shares[6],
+                        this.shares[5] + this.shares[5] + this.shares[6],
+                        this.shares[5] + this.shares[6],
+                        this.shares[6],
+                    ],
                     backgroundColor: '#005f73',
                     stack: '0',
                 },
                 {
-                    label: 'In the long run, with the wealth tax',
-                    data: [this.shareLongRunTop10, this.shareLongRunTop5,
-                        this.shareLongRunTop1, this.shareLongRunTop01,
-                        this.shareLongRunTop001].map((x, i) => 100*x),
+                    label: this.state.useRebate ? 'In the long run, with the wealth tax + lump-sum rebate' : 'In the long run, with the wealth tax',
+                    data: [
+                        this.sharesLongRun[0],
+                        this.sharesLongRun[1],
+                        this.sharesLongRun[2] + this.sharesLongRun[3] + this.sharesLongRun[5] + this.sharesLongRun[5] + this.sharesLongRun[6],
+                        this.sharesLongRun[3] + this.sharesLongRun[5] + this.sharesLongRun[5] + this.sharesLongRun[6],
+                        this.sharesLongRun[5] + this.sharesLongRun[5] + this.sharesLongRun[6],
+                        this.sharesLongRun[5] + this.sharesLongRun[6],
+                        this.sharesLongRun[6],
+                    ],
                     backgroundColor: '#e76f51',
                     stack: '1',
                 },
@@ -456,7 +441,7 @@ export class WealthTaxSimulator extends React.Component {
             let altDeclaredWealth = this.estimateDeclaredWealth(thresholds, altMarginalRates);
             let altExtraConsumption = this.estimateExtraConsumption(thresholds, altMarginalRates);
             let altTaxPaid = this.estimateTaxPaid(thresholds, altMarginalRates, altDeclaredWealth);
-            let altLongRunWeights = this.estimateLongRunWeights(altTaxPaid, altExtraConsumption);
+            let altLongRunWeights = this.estimateLongRunWeights(altTaxPaid, altExtraConsumption, 0);
 
             altTaxRevenue[j] = altTaxPaid
                 .map((y, i) => y*altLongRunWeights[i])
@@ -479,7 +464,7 @@ export class WealthTaxSimulator extends React.Component {
         this.lafferChartData = {
             datasets: [{
                 label: 'Current point',
-                data: [{'x': 100*this.avgMarginalRate, 'y': 100*this.totalTaxRevenueLongRun}],
+                data: [{'x': 100*this.avgMarginalRate, 'y': 100*this.totalTaxRevenueLongRunNoRebate}],
                 pointRadius: 5,
                 backgroundColor: '#e76f51',
             }, {
@@ -579,9 +564,17 @@ export class WealthTaxSimulator extends React.Component {
         let extraConsumption = this.estimateExtraConsumption(thresholds, marginalRates);
 
         let taxPaid = this.estimateTaxPaid(thresholds, marginalRates, declaredWealth);
-        let longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption);
+        let longRunWeights;
+        let longRunWeightsNoRebate;
+        if (this.state.useRebate) {
+            longRunWeights = this.estimateLongRunWeightsWithRebate(taxPaid, extraConsumption);
+            longRunWeightsNoRebate = this.estimateLongRunWeights(taxPaid, extraConsumption, 0);
+        } else {
+            longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption, 0);
+            longRunWeightsNoRebate = longRunWeights;
+        }
 
-        this.estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights);
+        this.estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights, longRunWeightsNoRebate);
         this.estimateLongRunInequality(taxPaid, longRunWeights);
 
         this.makeInequalityChart();
@@ -612,8 +605,8 @@ export class WealthTaxSimulator extends React.Component {
             thresholds.splice(i, 0, null);
             marginalRates.splice(i, 0, null);
         } else {
-            thresholds.unshift(null);
-            marginalRates.unshift(null);
+            thresholds.push(null);
+            marginalRates.push(null);
         }
 
         this.setState({
@@ -664,6 +657,11 @@ export class WealthTaxSimulator extends React.Component {
     handleChangeMobilityAdjustment(event) {
         this.setState({
             mobilityAdjustment: event.target.value
+        });
+    }
+    checkUseRebate(event) {
+        this.setState({
+            useRebate: !this.state.useRebate
         });
     }
     componentDidUpdate() {
@@ -740,14 +738,111 @@ export class WealthTaxSimulator extends React.Component {
                                             </button>
                                         </div>
                                     </div>
+                                    <div className="row justify-content-end mt-2 pe-2 gx-2 gy-2">
+                                        <div className="col-auto form-check">
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="checkUseRebate"
+                                                checked={this.state.useRebate}
+                                                onChange={(event) => this.checkUseRebate(event)}
+                                            />
+                                            <label className="form-check-label" htmlFor="checkUseRebate">
+                                                <strong>Distribute lump-sum tax rebate.</strong>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="row mb-5 justify-content-center">
+                <div className="row justify-content-center">
                     <div className="row">
-                        <h2 className="text-shadow"><span className="title-highlight-alt">Behavioral</span> Parameters</h2>
+                        <h2 className="text-shadow">See the <span className="title-highlight-alt">Results</span></h2>
+                    </div>
+                    <div className="row justify-content-around mb-5">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
+                                    <h5>How much money does your tax raise?</h5>
+                                    <p>This table describes how much money you get from each wealth tax bracket if your tax were enacted in the United States. It includes two variants: the “short-run” estimate only accounts for tax avoidance and indicates how much revenue you would get during the first few years. But over time, people progressively accumulate less wealth due to the tax. Decades later, the wealth available to be taxed will be lower. The “long-run” estimate shows how much money you will still be able to raise despite these effects.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
+                                    <div className="row ps-3 pe-3">
+                                        <WealthTaxRevenue
+                                            thresholds={this.sortedThresholds}
+                                            marginalRates={this.sortedMarginalRates}
+                                            popShortRun={this.popShortRun}
+                                            taxRevenueShortRun={this.taxRevenueShortRun}
+                                            popLongRun={this.popLongRun}
+                                            taxRevenueLongRun={this.taxRevenueLongRun}
+                                            totalPopShortRun={this.totalPopShortRun}
+                                            totalTaxRevenueShortRun={this.totalTaxRevenueShortRun}
+                                            totalPopLongRun={this.totalPopLongRun}
+                                            totalTaxRevenueLongRun={this.totalTaxRevenueLongRun}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row justify-content-around mb-5">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
+                                    <h5>How does it affect wealth inequality?</h5>
+                                    <p>Progressive wealth taxation lowers wealth inequality in the long run because it limits the wealthiest people’s ability to accumulate money. On top of that, if you chose to redistribute the tax as a lump-sum rebate, then poorer people get extra money that they can save.</p>
+                                    <p>This chart estimates how large these effects are. For each top wealth group, it shows their current share of wealth and the share of the wealth they would eventually have if the wealth tax were put in place.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
+                                    <div className="row ps-3 pe-3">
+                                        <div>
+                                            <Bar data={this.inequalityChartData} options={this.inequalityChartOptions}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row justify-content-around">
+                        <div className="col-lg-6">
+                            <div className="card mt-3 pt-2 mb-3 shadow">
+                                <div className="card-body">
+                                    <h5>Can you raise more revenue?</h5>
+                                    <p>You face a trade-off when trying to raise as much revenue as possible from a wealth tax. On the one hand, raising the tax rates lets you extract more money from the tax base. On the other hand, higher rates shrink the tax base itself as it makes people accumulate less money. Consider the two extremes: with a 0% tax rate, you raise no revenue. But with a 100% tax rate, you’re unlikely to raise any money either because no one will accumulate wealth if it means having to pay a 100% tax rate. The rate that maximizes tax revenue is somewhere in between.</p>
+                                    <p>This chart looks at variants of the tax schedule you provided. Each variant alters your tax rates so that they go from 0% to 100% on average. For each variant, it calculates the long-run tax revenue. It then plots the results as a line that relates the average marginal tax rate to the tax revenue.</p>
+                                    <p>The result is an inverted U-shaped curve, sometimes called the “Laffer curve.” The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, you can raise more revenue by increasing the wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
+                                    <p><em>Note that this analysis only focuses on the tax side and does not take lump-sum rebates into consideration, even if you selected that option.</em></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-6">
+                            <div className="card mt-3 mb-3 shadow color-alt">
+                                <div className="card-body">
+                                    <div className="row ps-3 pe-3">
+                                        <Scatter data={this.lafferChartData} options={this.lafferChartOptions}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row mt-5 mb-5 justify-content-center">
+                    <div className="row">
+                        <h2 className="text-shadow">Adjust <span className="title-highlight-alt">Behavioral</span> Parameters</h2>
                     </div>
                     <div className="row justify-content-around">
                         <div className="col-lg-6">
@@ -835,86 +930,6 @@ export class WealthTaxSimulator extends React.Component {
                                             onChange={this.handleChangeMobilityAdjustment}
                                         />
                                         <p className="ps-3 pe-3 mt-2 mb-0 muted small">Mobility in the wealth distribution changes the effects of the wealth tax. When mobility is very high, people only spend a short time in a given wealth bracket. And new people with their previously untaxed wealth keep entering the tax schedule. Therefore, the wealth tax has a limited effect on the distribution. But if mobility is low, the wealth tax repeatedly taxes the same wealth: in the long run, little wealth is left to tax. By default, the model is calibrated to match the wealth mobility observed in the United States. But you can adjust it by a factor &beta;. When &beta; is high, the wealth tax can raise more revenue.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row justify-content-center">
-                    <div className="row">
-                        <h2 className="text-shadow">See the <span className="title-highlight-alt">Results</span></h2>
-                    </div>
-                    <div className="row justify-content-around mb-5">
-                        <div className="col-lg-6">
-                            <div className="card mt-3 pt-2 mb-3 shadow">
-                                <div className="card-body">
-                                    <h5>How much money does your tax raise?</h5>
-                                    <p>This table describes how much money you get from each wealth tax bracket if your tax were enacted in the United States. It includes two variants: the “short-run” estimate only accounts for tax avoidance and indicates how much revenue you would get during the first few years. But over time, people progressively accumulate less wealth due to the tax. Decades later, the wealth available to be taxed will be lower. The “long-run” estimate shows how much money you will still be able to raise despite these effects.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow color-alt">
-                                <div className="card-body">
-                                    <div className="row ps-3 pe-3">
-                                        <WealthTaxRevenue
-                                            thresholds={this.sortedThresholds}
-                                            marginalRates={this.sortedMarginalRates}
-                                            popShortRun={this.popShortRun}
-                                            taxRevenueShortRun={this.taxRevenueShortRun}
-                                            popLongRun={this.popLongRun}
-                                            taxRevenueLongRun={this.taxRevenueLongRun}
-                                            totalPopShortRun={this.totalPopShortRun}
-                                            totalTaxRevenueShortRun={this.totalTaxRevenueShortRun}
-                                            totalPopLongRun={this.totalPopLongRun}
-                                            totalTaxRevenueLongRun={this.totalTaxRevenueLongRun}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row justify-content-around mb-5">
-                        <div className="col-lg-6">
-                            <div className="card mt-3 pt-2 mb-3 shadow">
-                                <div className="card-body">
-                                    <h5>How does it affect wealth inequality?</h5>
-                                    <p>Progressive wealth taxation lowers wealth inequality in the long run because it limits the wealthiest people’s ability to accumulate money.</p>
-                                    <p>This chart estimates how large these effects are. For each top wealth group, it shows their current share of wealth and the share of the wealth they would eventually have if the wealth tax were put in place.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow color-alt">
-                                <div className="card-body">
-                                    <div className="row ps-3 pe-3">
-                                        <div>
-                                            <Bar data={this.inequalityChartData} options={this.inequalityChartOptions}/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row justify-content-around">
-                        <div className="col-lg-6">
-                            <div className="card mt-3 pt-2 mb-3 shadow">
-                                <div className="card-body">
-                                    <h5>Can you raise more revenue?</h5>
-                                    <p>You face a trade-off when trying to raise as much revenue as possible from a wealth tax. On the one hand, raising the tax rates lets you extract more money from the tax base. On the other hand, higher rates shrink the tax base itself as it makes people accumulate less money. Consider the two extremes: with a 0% tax rate, you raise no revenue. But with a 100% tax rate, you’re unlikely to raise any money either because no one will accumulate wealth if it means having to pay a 100% tax rate. The rate that maximizes tax revenue is somewhere in between.</p>
-                                    <p>This chart looks at variants of the tax schedule you provided. Each variant alters your tax rates so that they go from 0% to 100% on average. For each variant, it calculates the long-run tax revenue. It then plots the results as a line that relates the average marginal tax rate to the tax revenue.</p>
-                                    <p>The result is an inverted U-shaped curve, sometimes called the “Laffer curve.” The point indicates where you currently stand on that curve. If you find yourself in the upward-slopping part, you can raise more revenue by increasing the wealth tax rates. But if you are in the downward sloping part, you can actually raise more money by lowering the rates.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="card mt-3 mb-3 shadow color-alt">
-                                <div className="card-body">
-                                    <div className="row ps-3 pe-3">
-                                        <Scatter data={this.lafferChartData} options={this.lafferChartOptions}/>
                                     </div>
                                 </div>
                             </div>
