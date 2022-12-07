@@ -44,7 +44,7 @@
         <div id="completed-alert" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6">
-                    <i class="fa-solid fa-thumbs-up"></i> Done! Your changes have been taken into account. You can check the new results.
+                    <i class="fa-solid fa-thumbs-up"></i> Done! Your changes have been taken into account. You can check the results.
                 </div>
                 <button type="button" class="btn-close btn-close-white me-4 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -73,7 +73,7 @@
                         <h1 class="text-shadow"><span class="title-highlight">Long-run</span> Wealth Tax Simulator</h1>
                         <p class="text-shadow mt-4">How much money could you raise with a wealth tax? And how would it change inequality? This simulator can answer these questions. Unlike other existing tools, it considers how taxation dynamically affects wealth accumulation and, as a result, changes the distribution of wealth in the long run. This makes it possible to know how much revenue the tax would sustainably raise and how it would reshape the wealth distribution.</p>
                         <p class="text-shadow mt-4">The analysis is based on the paper <em>“Uncovering the Dynamics of the Wealth Distribution,”</em> which develops simple formulas for understanding the long-run impact of wealth taxation.</p>
-                        <a class="btn btn-danger shadow-sm me-2 mb-2" href="Blanchet2022_JMP.pdf" target="_blank" role="button"><i class="fa-solid fa-book-open"></i>&nbsp; Read the paper</a>
+                        <a class="btn btn-danger shadow-sm me-2 mb-2" href="https://arxiv.org/abs/2211.15509" target="_blank" role="button"><i class="fa-solid fa-book-open"></i>&nbsp; Read the paper</a>
                         <a class="btn btn-success shadow-sm mb-2" href="https://thomasblanchet.com/" target="_blank" role="button"><i class="fa-solid fa-globe"></i>&nbsp; See my website</a>
                     </div>
                 </div>
@@ -111,6 +111,7 @@
                             <hr/>
                             <h5><span class="title-highlight">Practical</span> implementation</h5>
                             <p>This simulator uses a recent estimate of the wealth distribution in the United States from <a href="https://www.nber.org/papers/w30229" target="=_blank">Saez, and Zucman&nbsp;(2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a>&nbsp; as the baseline long-run wealth distribution. This constitutes a reasonable approximation given that <a href="Blanchet2022_JMP.pdf" target="_blank">Blanchet&nbsp;(2022) &nbsp;<i class="fa-solid fa-square-arrow-up-right"></i></a>&nbsp; finds that the current wealth distribution is close to its steady state. This data takes the form of simplified microdata. I use discretized versions of the formulas above and use them to reweight the microdata appropriately.</p>
+                            <p>When including a lump-sum rebate, an additive term \(\bar{\tau}\) is substracted from the tax. The value is of that term is set equal to the amount that is raised from the tax using a simple iterative algorithm: we start by estimating the revenue raised without the rebate, set the rebate equal to that amount, recalculate the effect on the distribution with the rebate, recalculate the new amount of tax raised, recalculate the rebate, and repeat until convergence.</p>
                             <p>To construct the last graph (tax revenue as a function of the average marginal tax rate), I alter the tax schedule provided by the user as follows. For any bracket \(k\) with marginal rate \(\tau_k\), and for any average marginal tax rate \(\bar{\tau}\), I define \(\tau^*_k = \tau_k + \phi(\bar{\tau})(1-\tau_k)\) where \(\phi(\bar{\tau})\) is chosen so that the average marginal tax rate of the tax schedule defined by the user’s thresholds and the marginal rates \((\tau_1, \dots, \tau_k)\) is equal to \(\bar{\tau}\).</p>
                         </div>
                     </div>

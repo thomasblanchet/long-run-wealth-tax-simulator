@@ -684,6 +684,7 @@ export class WealthTaxSimulator extends React.Component {
                                     <h5>Define your own wealth tax schedule</h5>
                                     <p>Use this section to define your tax schedule: you can specify any number of brackets by indicating their lower thresholds (expressed in millions of dollars) and the corresponding marginal tax rate on wealth (in percent) to apply in each of them.</p>
                                     <p>Don’t worry about the order. The program automatically sorts the brackets from the lowest to the highest threshold. If you prefer, use “Sort brackets” to sort them explicitly.</p>
+                                    <p>By default, the money collected by the tax is not redistributed (it is spent in other ways, e.g., public goods provision). But you can choose to redistribute it as a lump-sum rebate.</p>
                                 </div>
                             </div>
                         </div>
@@ -739,7 +740,7 @@ export class WealthTaxSimulator extends React.Component {
                                         </div>
                                     </div>
                                     <div className="row justify-content-end mt-2 pe-2 gx-2 gy-2">
-                                        <div className="col-auto form-check">
+                                        <div className="col-auto form-check form-switch form-check-reverse">
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
@@ -749,7 +750,7 @@ export class WealthTaxSimulator extends React.Component {
                                                 onChange={(event) => this.checkUseRebate(event)}
                                             />
                                             <label className="form-check-label" htmlFor="checkUseRebate">
-                                                <strong>Distribute lump-sum tax rebate.</strong>
+                                                <strong><i class="fa-solid fa-money-check-dollar"></i> &nbsp; Distribute lump-sum tax rebate</strong>
                                             </label>
                                         </div>
                                     </div>
