@@ -200,14 +200,15 @@ export class WealthTaxSimulator extends React.Component {
         return(longRunWeights);
     }
     estimateLongRunWeightsWithRebate(taxPaid, extraConsumption) {
-        // Get initial value assuming no rebate
-        let longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption, 0);
-        let rebate = longRunWeights.reduce((x, y, i) => x + y*taxPaid[i])/this.wealthData['population'];
-        // We do a few iterations (enough for a good approximation)
-        for (let k = 0; k < 10; k++) {
+        let longRunWeights, oldRebate;
+        let numIter = 0;
+        let rebate = 0;
+        do {
             longRunWeights = this.estimateLongRunWeights(taxPaid, extraConsumption, rebate);
-            rebate = longRunWeights.reduce((x, y, i) => x + y*taxPaid[i])/this.wealthData['population'];
-        }
+            oldRebate = rebate;
+            rebate = longRunWeights.reduce((x, y, i) => x + y*taxPaid[i], 0)/this.wealthData['population'];
+            numIter++;
+        } while (Math.abs((rebate - oldRebate)/(1 + rebate)) > 0.001 && numIter < 50);
         return(longRunWeights);
     }
     estimateTaxStatistics(thresholds, marginalRates, taxPaid, longRunWeights, longRunWeightsNoRebate) {
@@ -750,7 +751,7 @@ export class WealthTaxSimulator extends React.Component {
                                                 onChange={(event) => this.checkUseRebate(event)}
                                             />
                                             <label className="form-check-label" htmlFor="checkUseRebate">
-                                                <strong><i class="fa-solid fa-money-check-dollar"></i> &nbsp; Distribute lump-sum tax rebate</strong>
+                                                <strong><i className="fa-solid fa-money-check-dollar"></i> &nbsp; Distribute lump-sum tax rebate</strong>
                                             </label>
                                         </div>
                                     </div>
