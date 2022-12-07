@@ -23,10 +23,10 @@ export class WealthTaxRevenue extends React.Component {
                             this.props.thresholds.map((threshold, i) =>
                                 <tr key={i}>
                                     <td>${this.props.thresholds[i]}m</td>
-                                    <td>{(100*this.props.popShortRun[i]).toPrecision(2)}%</td>
-                                    <td>{(100*this.props.popLongRun[i]).toPrecision(2)}%</td>
-                                    <td>{(100*this.props.taxRevenueShortRun[i]).toPrecision(2)}%</td>
-                                    <td>{(100*this.props.taxRevenueLongRun[i]).toPrecision(2)}%</td>
+                                    <td>{(100*this.props.popShortRun[i]).toPrecision(3)}%</td>
+                                    <td>{(100*this.props.popLongRun[i]).toPrecision(3)}%</td>
+                                    <td>{(100*this.props.taxRevenueShortRun[i]).toPrecision(3)}%</td>
+                                    <td>{(100*this.props.taxRevenueLongRun[i]).toPrecision(3)}%</td>
                                 </tr>
                             )
                         }
@@ -34,10 +34,10 @@ export class WealthTaxRevenue extends React.Component {
                     <tfoot>
                         <tr>
                             <td>Total</td>
-                            <td>{(100*this.props.totalPopShortRun).toPrecision(2)}%</td>
-                            <td>{(100*this.props.totalPopLongRun).toPrecision(2)}%</td>
-                            <td>{(100*this.props.totalTaxRevenueShortRun).toPrecision(2)}%</td>
-                            <td>{(100*this.props.totalTaxRevenueLongRun).toPrecision(2)}%</td>
+                            <td>{(100*this.props.totalPopShortRun).toPrecision(3)}%</td>
+                            <td>{(100*this.props.totalPopLongRun).toPrecision(3)}%</td>
+                            <td>{(100*this.props.totalTaxRevenueShortRun).toPrecision(3)}%</td>
+                            <td>{(100*this.props.totalTaxRevenueLongRun).toPrecision(3)}%</td>
                         </tr>
                     </tfoot>
                 </table>
