@@ -39,6 +39,7 @@ export class WealthTaxSimulator extends React.Component {
         this.handleChangeMobilityAdjustment = this.handleChangeMobilityAdjustment.bind(this);
         this.handleChangeThreshold = this.handleChangeThreshold.bind(this);
         this.handleChangeMarginalRate = this.handleChangeMarginalRate.bind(this);
+        this.checkUseRebate = this.checkUseRebate.bind(this);
 
         this.estimateBaselineInequality();
 
@@ -458,7 +459,6 @@ export class WealthTaxSimulator extends React.Component {
 
         return lafferCurve;
     }
-
     makeLafferChart(thresholds, marginalRates) {
         let lafferCurve = this.estimateLafferCurve(thresholds, marginalRates);
 
@@ -748,7 +748,7 @@ export class WealthTaxSimulator extends React.Component {
                                                 value=""
                                                 id="checkUseRebate"
                                                 checked={this.state.useRebate}
-                                                onChange={(event) => this.checkUseRebate(event)}
+                                                onChange={() => this.checkUseRebate()}
                                             />
                                             <label className="form-check-label" htmlFor="checkUseRebate">
                                                 <strong><i className="fa-solid fa-money-check-dollar"></i> &nbsp; Distribute lump-sum tax rebate</strong>
