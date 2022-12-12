@@ -469,6 +469,7 @@ export class WealthTaxSimulator extends React.Component {
                 pointRadius: 5,
                 backgroundColor: '#e76f51',
             }, {
+                type: 'line',
                 label: 'Laffer curve',
                 data: lafferCurve,
                 showLine: true,
